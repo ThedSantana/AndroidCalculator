@@ -17,7 +17,7 @@ public class DisplayMessageActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("DisplayMessageActivity", "created");
+//        Log.d("DisplayMessageActivity", "created");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_message);
 
