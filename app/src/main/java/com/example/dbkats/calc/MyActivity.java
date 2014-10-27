@@ -83,6 +83,7 @@ public class MyActivity extends Activity {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             new DownloadWebpageTask().execute("");
+
         } else {
             intent.putExtra(EXTRA_MSG, "trouble connecting to server");
             startActivity(intent);
@@ -97,7 +98,7 @@ public class MyActivity extends Activity {
 
                 String json = "";
                 JSONObject obj = new JSONObject();
-                obj.accumulate("title", "Test from Phone");
+                obj.accumulate("nickname", "Anonymous Android Phone");
                 obj.accumulate("msg", msg[0]);
                 json = obj.toString();
 
@@ -186,7 +187,7 @@ public class MyActivity extends Activity {
                 JSONArray arr = new JSONArray(content);
                 for (int i = arr.length() - 1; i >= 0; i--) {
                     JSONObject obj = arr.getJSONObject(i);
-                    output += obj.get("title") + "\n" + obj.get("msg") + "\n";
+                    output += obj.get("nickname") + ": " + obj.get("msg") + "\n";
                 }
 
                 textView.setText(output);
