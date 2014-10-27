@@ -14,12 +14,14 @@ import android.view.View;
 import android.content.Intent;
 import android.widget.EditText;
 import android.util.Log;
+import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,6 +40,7 @@ public class MyActivity extends Activity {
 
     public static String EXTRA_MSG = "hello";
     private Intent intent;
+    private TextView textView;
 
     public void addNumbers (View view) {
         Intent intent = new Intent(this, DisplayMessageActivity.class);
@@ -73,7 +76,8 @@ public class MyActivity extends Activity {
     }
 
     public void getMessages (View view) {
-        this.intent = new Intent(this, DisplayMessageActivity.class);
+//        this.intent = new Intent(this, Activity.class);
+        this.textView = (TextView) findViewById(R.id.message_container);
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -175,8 +179,20 @@ public class MyActivity extends Activity {
         }
 
         protected void onPostExecute (String content) {
-            intent.putExtra(EXTRA_MSG, content);
-            startActivity(intent);
+            // parse the content
+            String output = "";
+
+            try {
+                JSONArray arr = new JSONArray(content);
+                for (int i = arr.length() - 1; i >= 0; i--) {
+                    JSONObject obj = arr.getJSONObject(i);
+                    output += obj.get("title") + "\n" + obj.get("msg") + "\n";
+                }
+
+                textView.setText(output);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
