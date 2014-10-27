@@ -185,7 +185,7 @@ public class MyActivity extends Activity {
 
             try {
                 JSONArray arr = new JSONArray(content);
-                for (int i = arr.length() - 1; i >= 0; i--) {
+                for (int i = 0; i < arr.length(); i++) {
                     JSONObject obj = arr.getJSONObject(i);
                     output += obj.get("nickname") + ": " + obj.get("msg") + "\n";
                 }
